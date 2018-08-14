@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello World</title>
+</head>
+<body>
+<div style="margin: auto; line-height: 300px; height: 300px; text-align: center;">
+    <h1><span id="h">H</span><span id="e">e</span><span id="l1">l</span><span id="l2">l</span><span id="o1">o</span>
+        <span id="w"> W</span><span id="o2">o</span><span id="r">r</span><span id="l3">l</span><span id="d">d</span>
+    </h1>
+</div>
+</body>
+
+<script>
+    var interval = 150;
+    var increment = .150;
+
+    var letters = ["h", "e", "l1", "l2", "o1", "w", "o2", "r", "l3", "d"]; // the id's of the spans that encloses each letter
+    var colors = ["#550000", "#aa0000", "#ff0000", "#ff5500", "#ffaa00", "#ffff00", "#aaff00", "#55ff00", '#00ff00', "#00ff55", "#00ffaa", "#00ffff",
+        "#00aaff", "#0055ff", "#0000ff", "#5500ff", "#aa00ff", "#ff00ff", "#ff00aa", "#ff0055", "#ff0000", "#aa0000", "#550000", "#000000"];
+
+    var step; //for stepping through the data array on repeated calls to the set_text function
+    var positive = true; // for changing from increment to decrement and back
+
+    var data = [100, 0, 100, 0, 100, 0, 100, 0, 100, 0, 100, 0, 100, 0, 100, 0, 100, 0, 100, 0];//each pair is text size and text color position
+
+
+    function change_size() {
+        //move array items to the right 2 places
+        for (i = 19; i > 1; i -= 2) {
+            data[i] = data[i - 2];
+            data[i - 1] = data[i - 3];
+        }
+        // set new values for first two items in array
+        if (positive) {
+            data[0] *= (1 + increment);
+            if (data[0] > 500) {
+                positive = false; // change to decrement
+            }
+        } else {
+            data[0] /= (1 + increment);
+            if (data[0] < 100) {
+                positive = true; // change to increment
+            }
+        }
+        //increment color
+        if (data[1] === 23) {
+            data[1] = 0; // start from the beginning
+        } else {
+            data[1]++;
+        }
+
+        step = 0;
+        letters.forEach(set_text)
+
+        setTimeout(change_size, interval);
+
+    }
+
+    function set_text(id) {
+        letter = document.getElementById(id);
+        letter.style.fontSize = data[step] + "%";
+        letter.style.color = colors[data[step + 1]];
+        step += 2;
+    }
+
+    change_size();
+
+
+</script>
+
+
+</html>
